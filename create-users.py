@@ -13,8 +13,11 @@ import sys
 # The main function reads input and creates users from each valid line thats inputed.
 def main():
 
-    # Ask the user if they want to run in dry-run mode (Y = simulate, N = actually run)
-    dry_run_input = input("Would you like to run the program in dry-run mode? (Y/N): ").strip().lower()
+    # Ask the user if they want to run in dry-run mode using the terminal (not stdin)
+    with open('/dev/tty') as tty:
+        print("Run in dry-run mode? (Y/N): ", end='', flush=True)
+        dry_run_input = tty.readline().strip().lower()
+
     # Convert the answer into a boolean (True = dry-run, False = normal run)
     dry_run = (dry_run_input == 'y')
 
@@ -34,7 +37,6 @@ def main():
                     print("Skipping comment line.")
                 else:
                     print("Error: invalid format ->", line.strip())
-            # Skip processing this line
             continue
 
         # Gathers the username, password, and name info from fields.
